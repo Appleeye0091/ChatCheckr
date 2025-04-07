@@ -84,14 +84,14 @@ const Testimonials = () => {
             <div className="flex justify-center mt-8 gap-4">
               <Button
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:border-white"
                 onClick={prevTestimonial}
               >
                 Previous
               </Button>
               <Button
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="border-white/40 bg-white/10 text-white hover:bg-white/20 hover:border-white"
                 onClick={nextTestimonial}
               >
                 Next
