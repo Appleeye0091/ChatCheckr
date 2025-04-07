@@ -4,15 +4,15 @@ import { MessageSquare, FileCheck, LineChart } from "lucide-react";
 const steps = [
   {
     icon: <MessageSquare className="h-10 w-10 text-chatCheckr-purple" />,
-    title: "Share Your Chat",
+    title: "Mystery Customer Chat",
     description:
-      "Provide us with a sample of your customer chat conversations from WhatsApp (minimum 10 interactions)."
+      "We initiate a conversation with your business as a potential customer to evaluate your chat experience."
   },
   {
     icon: <FileCheck className="h-10 w-10 text-chatCheckr-purple" />,
     title: "Expert Review",
     description:
-      "Our team of communication experts will analyze your chats for response time, tone, clarity, and customer satisfaction."
+      "Our team of communication experts will analyze the conversation for response time, tone, clarity, and customer satisfaction."
   },
   {
     icon: <LineChart className="h-10 w-10 text-chatCheckr-purple" />,
