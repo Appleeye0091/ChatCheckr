@@ -1,9 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import HowItWorks from "@/components/HowItWorks";
-import SampleReport from "@/components/SampleReport";
 import Testimonials from "@/components/Testimonials";
 import Pricing from "@/components/Pricing";
 import ContactCTA from "@/components/ContactCTA";
@@ -136,11 +134,10 @@ const Index = () => {
       </section>
       
       <HowItWorks />
-      <SampleReport />
-      <Testimonials />
       <Pricing />
       <FAQ />
       <ContactCTA />
+      <Testimonials />
       <Footer />
     </div>
   );
