@@ -58,8 +58,8 @@ const Pricing = () => {
                 )}
                 <CardHeader>
                   <CardTitle>{plan.name}</CardTitle>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">{plan.price}</span>
+                  <div className="mt-4 flex items-center flex-wrap">
+                    <span className="text-4xl font-bold whitespace-nowrap">{plan.price}</span>
                     <span className="text-gray-500 ml-2">one-time</span>
                   </div>
                   <CardDescription className="mt-4">{plan.description}</CardDescription>

@@ -1,12 +1,33 @@
 
-import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Linkedin, Shield, RotateCcw, FileText, ChevronUp } from "lucide-react";
+import { useState } from "react";
 
 const Footer = () => {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Show back to top button when the user scrolls down
+  if (typeof window !== "undefined") {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    });
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <footer className="bg-chatCheckr-darkPurple text-white pt-12 pb-6">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+          <div className="md:col-span-2">
             <h3 className="text-xl font-semibold mb-4">ChatCheckr</h3>
             <p className="text-gray-300 mb-4">
               Helping businesses improve their customer chat experience through professional audits and actionable insights.
@@ -37,9 +58,6 @@ const Footer = () => {
                 <a href="#how-it-works" className="text-gray-300 hover:text-chatCheckr-purple transition-colors">How It Works</a>
               </li>
               <li>
-                <a href="#sample-report" className="text-gray-300 hover:text-chatCheckr-purple transition-colors">Sample Report</a>
-              </li>
-              <li>
                 <a href="#pricing" className="text-gray-300 hover:text-chatCheckr-purple transition-colors">Pricing</a>
               </li>
               <li>
@@ -56,8 +74,29 @@ const Footer = () => {
               <li>Address: 123 Business Park, Bengaluru, India</li>
             </ul>
           </div>
-          
+
           <div>
+            <h3 className="text-lg font-semibold mb-4">More</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#privacy" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                  <Shield size={16} className="mr-2" /> Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="#refund" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                  <RotateCcw size={16} className="mr-2" /> Refund Policy
+                </a>
+              </li>
+              <li>
+                <a href="#terms" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                  <FileText size={16} className="mr-2" /> Terms & Conditions
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="md:col-span-2 md:col-start-4">
             <h3 className="text-lg font-semibold mb-4">Subscribe</h3>
             <p className="text-gray-300 mb-4">Subscribe to our newsletter for tips on improving customer communication.</p>
             <form className="flex">
@@ -80,6 +119,17 @@ const Footer = () => {
           <p>© {new Date().getFullYear()} ChatCheckr. All rights reserved.</p>
         </div>
       </div>
+
+      {/* Back to top button */}
+      {showBackToTop && (
+        <button 
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 bg-chatCheckr-purple p-3 rounded-full shadow-lg hover:bg-chatCheckr-secondaryPurple transition-colors"
+          aria-label="Back to top"
+        >
+          <ChevronUp size={24} className="text-white" />
+        </button>
+      )}
     </footer>
   );
 };

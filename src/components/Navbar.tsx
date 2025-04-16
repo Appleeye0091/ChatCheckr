@@ -6,7 +6,6 @@ import { Menu, X } from "lucide-react";
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "How It Works", href: "#how-it-works" },
-  { name: "Sample Report", href: "#sample-report" },
   { name: "Testimonials", href: "#testimonials" },
   { name: "Pricing", href: "#pricing" },
   { name: "FAQ", href: "#faq" },
@@ -40,7 +39,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="#home" className="flex items-center">
-          <span className="text-2xl font-bold text-chatCheckr-darkPurple">
+          <span className="text-2xl font-bold text-chatCheckr-darkPurple mr-6">
             Chat<span className="text-chatCheckr-purple">Checkr</span>
           </span>
         </a>
