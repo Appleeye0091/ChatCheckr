@@ -7,6 +7,7 @@ import Pricing from "@/components/Pricing";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useNavigate } from "react-router-dom";
 
 const FAQ = () => {
   const faqs = [
@@ -54,6 +55,8 @@ const FAQ = () => {
 };
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -71,7 +74,11 @@ const Index = () => {
                 Get a professional audit of your WhatsApp business conversations and discover how to improve your customer experience.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Button size="lg" className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-lg">
+                <Button 
+                  size="lg" 
+                  className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-lg"
+                  onClick={() => navigate("/business-form")}
+                >
                   Get Your Audit – ₹199
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg">

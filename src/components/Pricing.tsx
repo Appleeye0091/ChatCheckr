@@ -1,7 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const plans = [
   {
@@ -39,6 +39,8 @@ const plans = [
 ];
 
 const Pricing = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="pricing" className="section-padding">
       <div className="container mx-auto">
@@ -81,6 +83,7 @@ const Pricing = () => {
                         ? "bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple" 
                         : ""
                     }`}
+                    onClick={() => navigate("/business-form")}
                   >
                     {plan.buttonText}
                   </Button>
