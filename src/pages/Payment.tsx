@@ -26,17 +26,10 @@ const Payment = () => {
     try {
       setIsLoading(true);
       
-      const session = await supabase.auth.getSession();
-      if (!session.data.session?.user) {
-        navigate("/auth");
-        return;
-      }
-
       const { error: paymentError } = await supabase
         .from("payments")
         .insert({
           amount: parseFloat(data.amount),
-          user_id: session.data.session.user.id,
           payment_method: "dummy",
           status: "completed",
         });
@@ -48,7 +41,6 @@ const Payment = () => {
         description: "Thank you for your payment. We'll start your audit soon.",
       });
 
-      // Navigate to a success page or dashboard in the future
       navigate("/");
     } catch (error) {
       toast({

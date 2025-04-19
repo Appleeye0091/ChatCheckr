@@ -25,19 +25,12 @@ const BusinessForm = () => {
     try {
       setIsLoading(true);
       
-      const session = await supabase.auth.getSession();
-      if (!session.data.session?.user) {
-        navigate("/auth");
-        return;
-      }
-
       const { error: businessError } = await supabase
         .from("businesses")
         .insert({
           business_name: data.businessName,
           whatsapp_number: data.whatsappNumber,
           business_model: data.businessModel,
-          user_id: session.data.session.user.id,
         });
 
       if (businessError) throw businessError;

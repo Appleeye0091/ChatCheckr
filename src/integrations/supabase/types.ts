@@ -89,7 +89,6 @@ export type Database = {
           created_at: string
           id: string
           updated_at: string
-          user_id: string
           whatsapp_number: string
         }
         Insert: {
@@ -98,7 +97,6 @@ export type Database = {
           created_at?: string
           id?: string
           updated_at?: string
-          user_id: string
           whatsapp_number: string
         }
         Update: {
@@ -107,7 +105,6 @@ export type Database = {
           created_at?: string
           id?: string
           updated_at?: string
-          user_id?: string
           whatsapp_number?: string
         }
         Relationships: []
@@ -121,7 +118,6 @@ export type Database = {
           payment_method: string | null
           status: string
           transaction_id: string | null
-          user_id: string
         }
         Insert: {
           amount: number
@@ -131,7 +127,6 @@ export type Database = {
           payment_method?: string | null
           status?: string
           transaction_id?: string | null
-          user_id: string
         }
         Update: {
           amount?: number
@@ -141,7 +136,6 @@ export type Database = {
           payment_method?: string | null
           status?: string
           transaction_id?: string | null
-          user_id?: string
         }
         Relationships: [
           {
@@ -152,30 +146,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          email: string | null
-          full_name: string | null
-          id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          full_name?: string | null
-          id?: string
-          updated_at?: string
-        }
-        Relationships: []
       }
     }
     Views: {
