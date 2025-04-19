@@ -1,7 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -15,6 +16,7 @@ const navItems = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,8 +57,11 @@ const Navbar = () => {
               {item.name}
             </a>
           ))}
-          <Button className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple">
-            Get Your Audit
+          <Button 
+            className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple"
+            onClick={() => navigate("/auth")}
+          >
+            Get Started
           </Button>
         </div>
 
@@ -84,8 +89,11 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
-            <Button className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple w-full">
-              Get Your Audit
+            <Button 
+              className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple w-full"
+              onClick={() => navigate("/auth")}
+            >
+              Get Started
             </Button>
           </div>
         </div>
