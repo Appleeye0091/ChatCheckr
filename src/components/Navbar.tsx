@@ -1,8 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, List } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -33,6 +33,14 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleGetStarted = () => {
+    navigate("/business-form");
+  };
+
+  const handleMyOrder = () => {
+    navigate("/my-order");
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -40,7 +48,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <a href="#home" className="flex items-center">
+        <a href="/" className="flex items-center">
           <span className="text-2xl font-bold text-chatCheckr-darkPurple mr-6">
             Chat<span className="text-chatCheckr-purple">Checkr</span>
           </span>
@@ -57,9 +65,19 @@ const Navbar = () => {
               {item.name}
             </a>
           ))}
+          
+          <Button 
+            variant="outline"
+            onClick={handleMyOrder}
+            className="flex items-center gap-2"
+          >
+            <List size={16} />
+            My Order
+          </Button>
+          
           <Button 
             className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple"
-            onClick={() => navigate("/auth")}
+            onClick={handleGetStarted}
           >
             Get Started
           </Button>
@@ -89,9 +107,25 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
+            
+            <Button 
+              variant="outline"
+              onClick={() => {
+                handleMyOrder();
+                setIsOpen(false);
+              }}
+              className="flex items-center gap-2 w-full justify-center"
+            >
+              <List size={16} />
+              My Order
+            </Button>
+            
             <Button 
               className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple w-full"
-              onClick={() => navigate("/auth")}
+              onClick={() => {
+                handleGetStarted();
+                setIsOpen(false);
+              }}
             >
               Get Started
             </Button>

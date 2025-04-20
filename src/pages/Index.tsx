@@ -57,6 +57,10 @@ const FAQ = () => {
 const Index = () => {
   const navigate = useNavigate();
 
+  const handleGetAudit = () => {
+    navigate("/business-form");
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -77,7 +81,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-lg"
-                  onClick={() => navigate("/business-form")}
+                  onClick={handleGetAudit}
                 >
                   Get Your Audit – ₹199
                 </Button>

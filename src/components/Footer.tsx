@@ -1,9 +1,12 @@
 
 import { Facebook, Instagram, Twitter, Linkedin, Shield, RotateCcw, FileText, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import RefundRequestForm from "./RefundRequestForm";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [refundFormOpen, setRefundFormOpen] = useState(false);
 
   // Show back to top button when the user scrolls down
   if (typeof window !== "undefined") {
@@ -26,8 +29,8 @@ const Footer = () => {
   return (
     <footer className="bg-chatCheckr-darkPurple text-white pt-12 pb-6">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="md:col-span-1">
             <h3 className="text-xl font-semibold mb-4">ChatCheckr</h3>
             <p className="text-gray-300 mb-4">
               Helping businesses improve their customer chat experience through professional audits and actionable insights.
@@ -93,25 +96,21 @@ const Footer = () => {
                   <FileText size={16} className="mr-2" /> Terms & Conditions
                 </a>
               </li>
+              <li className="pt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setRefundFormOpen(true)}
+                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors"
+                >
+                  Request for Refund
+                </Button>
+                
+                <RefundRequestForm 
+                  open={refundFormOpen} 
+                  onOpenChange={setRefundFormOpen} 
+                />
+              </li>
             </ul>
-          </div>
-          
-          <div className="md:col-span-2 md:col-start-4">
-            <h3 className="text-lg font-semibold mb-4">Subscribe</h3>
-            <p className="text-gray-300 mb-4">Subscribe to our newsletter for tips on improving customer communication.</p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-4 py-2 w-full rounded-l-md focus:outline-none text-gray-800"
-              />
-              <button
-                type="submit"
-                className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple px-4 py-2 rounded-r-md transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
           </div>
         </div>
         

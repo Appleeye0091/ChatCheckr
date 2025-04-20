@@ -22,15 +22,30 @@ const Payment = () => {
     },
   });
 
+  // Generate random 8 character ID with uppercase letters and numbers
+  const generateChatcheckrId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
   const onSubmit = async (data: PaymentFormData) => {
     try {
       setIsLoading(true);
       
+      // Generate a unique ChatCheckr ID
+      const chatcheckrId = generateChatcheckrId();
+      
+      // Update the most recent business audit record
       const { error: paymentError } = await supabase
         .from("business_audits")
         .update({ 
           payment_amount: parseFloat(data.amount),
-          payment_status: "completed" 
+          payment_status: "completed",
+          chatcheckr_id: chatcheckrId
         })
         .eq("payment_status", "pending")
         .order("created_at", { ascending: false })
@@ -43,7 +58,8 @@ const Payment = () => {
         description: "Thank you for your payment. We'll start your audit soon.",
       });
 
-      navigate("/");
+      // Navigate to confirmation page with the ChatCheckr ID
+      navigate("/confirmation", { state: { chatcheckrId } });
     } catch (error) {
       toast({
         title: "Error",
