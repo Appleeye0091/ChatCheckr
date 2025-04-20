@@ -97,12 +97,7 @@ const MyOrder = () => {
             </div>
             
             {chatcheckrId && !orderData && !isLoading && (
-              <Alert variant="destructive" className="mt-4">
-                <AlertTitle>Order Not Found</AlertTitle>
-                <AlertDescription>
-                  We couldn't find an order with this ChatCheckr ID. Please double-check the ID or contact our support team if you believe this is an error.
-                </AlertDescription>
-              </Alert>
+              
             )}
           </div>
         ) : (
