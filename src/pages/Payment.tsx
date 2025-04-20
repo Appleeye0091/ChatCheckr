@@ -27,12 +27,14 @@ const Payment = () => {
       setIsLoading(true);
       
       const { error: paymentError } = await supabase
-        .from("payments")
-        .insert({
-          amount: parseFloat(data.amount),
-          payment_method: "dummy",
-          status: "completed",
-        });
+        .from("business_audits")
+        .update({ 
+          payment_amount: parseFloat(data.amount),
+          payment_status: "completed" 
+        })
+        .eq("payment_status", "pending")
+        .order("created_at", { ascending: false })
+        .limit(1);
 
       if (paymentError) throw paymentError;
 
@@ -66,7 +68,7 @@ const Payment = () => {
                 <FormItem>
                   <FormLabel>Amount (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
