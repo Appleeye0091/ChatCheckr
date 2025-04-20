@@ -14,6 +14,7 @@ export type Database = {
           business_model: string
           business_model_other: string | null
           business_name: string
+          chatcheckr_id: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
@@ -29,6 +30,7 @@ export type Database = {
           business_model: string
           business_model_other?: string | null
           business_name: string
+          chatcheckr_id?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -44,6 +46,7 @@ export type Database = {
           business_model?: string
           business_model_other?: string | null
           business_name?: string
+          chatcheckr_id?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -52,6 +55,39 @@ export type Database = {
           payment_status?: string | null
           product_type?: string | null
           product_type_other?: string | null
+          updated_at?: string | null
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
+      refund_requests: {
+        Row: {
+          chatcheckr_id: string
+          created_at: string | null
+          id: string
+          reason: string | null
+          status: string | null
+          transaction_id: string
+          updated_at: string | null
+          whatsapp_number: string
+        }
+        Insert: {
+          chatcheckr_id: string
+          created_at?: string | null
+          id?: string
+          reason?: string | null
+          status?: string | null
+          transaction_id: string
+          updated_at?: string | null
+          whatsapp_number: string
+        }
+        Update: {
+          chatcheckr_id?: string
+          created_at?: string | null
+          id?: string
+          reason?: string | null
+          status?: string | null
+          transaction_id?: string
           updated_at?: string | null
           whatsapp_number?: string
         }
