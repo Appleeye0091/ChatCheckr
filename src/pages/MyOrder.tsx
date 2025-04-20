@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoaderCircle, Info } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 const MyOrder = () => {
   const [chatcheckrId, setChatcheckrId] = useState("");
@@ -32,13 +33,14 @@ const MyOrder = () => {
         .from("business_audits")
         .select("*")
         .eq("chatcheckr_id", chatcheckrId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       
       if (data) {
         setOrderData(data);
       } else {
+        setOrderData(null);
         toast({
           title: "Not Found",
           description: "No order found with this ChatCheckr ID",
@@ -56,10 +58,23 @@ const MyOrder = () => {
     }
   };
 
+  // Function to determine the progress status of an audit
+  // In a real application, this would be based on the actual audit status from the database
   const getProgressStatus = () => {
-    // Random progress for demo purposes (25%, 50%, 75%, 100%)
-    // In real application, this would be based on actual audit progress
-    return Math.floor(Math.random() * 4 + 1) * 25;
+    // For this example, we'll use a status field that would be set by the admin
+    // For now, let's use a placeholder that can be updated in the database
+    if (orderData && orderData.audit_status === "completed") {
+      return 100;
+    } else if (orderData && orderData.audit_status === "in_progress") {
+      return 75;
+    } else if (orderData && orderData.audit_status === "started") {
+      return 50;
+    } else if (orderData && orderData.audit_status === "received") {
+      return 25;
+    } else {
+      // Default for new orders
+      return 25;
+    }
   };
 
   return (
@@ -89,6 +104,15 @@ const MyOrder = () => {
                 Check Status
               </Button>
             </div>
+            
+            {chatcheckrId && !orderData && !isLoading && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertTitle>Order Not Found</AlertTitle>
+                <AlertDescription>
+                  We couldn't find an order with this ChatCheckr ID. Please double-check the ID or contact our support team if you believe this is an error.
+                </AlertDescription>
+              </Alert>
+            )}
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-md p-6">

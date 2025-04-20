@@ -2,11 +2,15 @@
 import { Facebook, Instagram, Twitter, Linkedin, Shield, RotateCcw, FileText, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import RefundRequestForm from "./RefundRequestForm";
+import PrivacyPolicy from "./PrivacyPolicy";
+import RefundPolicy from "./RefundPolicy";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [refundFormOpen, setRefundFormOpen] = useState(false);
+  const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
+  const [refundPolicyOpen, setRefundPolicyOpen] = useState(false);
 
   // Show back to top button when the user scrolls down
   if (typeof window !== "undefined") {
@@ -72,9 +76,9 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
-              <li>Email: info@chatcheckr.com</li>
-              <li>Phone: +91 98765 43210</li>
-              <li>Address: 123 Business Park, Bengaluru, India</li>
+              <li>Email: chatcheckr.help@gmail.com</li>
+              <li>WhatsApp: +91 9641070347</li>
+              <li>Address: Near Jangipur college, Murshidabad, West Bengal, India</li>
             </ul>
           </div>
 
@@ -82,14 +86,20 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">More</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#privacy" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                <button 
+                  onClick={() => setPrivacyPolicyOpen(true)}
+                  className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center"
+                >
                   <Shield size={16} className="mr-2" /> Privacy Policy
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#refund" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                <button 
+                  onClick={() => setRefundPolicyOpen(true)}
+                  className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center"
+                >
                   <RotateCcw size={16} className="mr-2" /> Refund Policy
-                </a>
+                </button>
               </li>
               <li>
                 <a href="#terms" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
@@ -104,11 +114,6 @@ const Footer = () => {
                 >
                   Request for Refund
                 </Button>
-                
-                <RefundRequestForm 
-                  open={refundFormOpen} 
-                  onOpenChange={setRefundFormOpen} 
-                />
               </li>
             </ul>
           </div>
@@ -118,6 +123,11 @@ const Footer = () => {
           <p>© {new Date().getFullYear()} ChatCheckr. All rights reserved.</p>
         </div>
       </div>
+
+      {/* Modals */}
+      <RefundRequestForm open={refundFormOpen} onOpenChange={setRefundFormOpen} />
+      <PrivacyPolicy open={privacyPolicyOpen} onOpenChange={setPrivacyPolicyOpen} />
+      <RefundPolicy open={refundPolicyOpen} onOpenChange={setRefundPolicyOpen} />
 
       {/* Back to top button */}
       {showBackToTop && (
