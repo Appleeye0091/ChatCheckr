@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       business_audits: {
         Row: {
+          audit_status: string | null
           business_model: string
           business_model_other: string | null
           business_name: string
@@ -27,6 +28,7 @@ export type Database = {
           whatsapp_number: string
         }
         Insert: {
+          audit_status?: string | null
           business_model: string
           business_model_other?: string | null
           business_name: string
@@ -43,6 +45,7 @@ export type Database = {
           whatsapp_number: string
         }
         Update: {
+          audit_status?: string | null
           business_model?: string
           business_model_other?: string | null
           business_name?: string

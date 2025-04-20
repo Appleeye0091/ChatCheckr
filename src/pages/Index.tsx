@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -16,16 +17,16 @@ const FAQ = () => {
       answer: "After you purchase an audit, you'll receive instructions to share your WhatsApp chat samples. Our experts will analyze them and prepare a comprehensive report within 48 hours that highlights strengths, areas for improvement, and specific recommendations."
     },
     {
-      question: "What kind of chats should I submit for analysis?",
-      answer: "We recommend submitting a mix of different customer interactions – inquiries, complaints, sales conversations, etc. This gives us a comprehensive view of your communication style across different scenarios."
+      question: "Will you disclose that you pretended to be a potential customer?",
+      answer: "No. Our mysterious customer workflow ensures complete confidentiality. We will never disclose that we were the customer or that an audit was conducted. Your business reputation remains protected."
     },
     {
-      question: "How many chat samples do you need?",
-      answer: "For the Basic Audit, we analyze 10-20 conversations. For the Premium Audit, we can analyze up to 50 conversations for a more in-depth assessment."
+      question: "How many interactions do you analyze?",
+      answer: "For the Basic Audit, we analyze 10-20 interactions. For the Premium Audit, we can analyze up to 50 interactions for a more in-depth assessment."
     },
     {
-      question: "Is my chat data kept confidential?",
-      answer: "Absolutely. We take data privacy seriously. Your chat data is processed confidentially and deleted after your report is delivered. We can also sign an NDA if required."
+      question: "Is my data kept confidential?",
+      answer: "Absolutely. We take data privacy seriously. Your interaction data is processed confidentially and deleted after your report is delivered. We can also sign an NDA if required."
     },
     {
       question: "Can I upgrade from Basic to Premium later?",

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -33,24 +32,23 @@ const MyOrder = () => {
         .from("business_audits")
         .select("*")
         .eq("chatcheckr_id", chatcheckrId)
-        .maybeSingle();
+        .single();
 
       if (error) throw error;
       
-      if (data) {
-        setOrderData(data);
-      } else {
-        setOrderData(null);
+      setOrderData(data);
+
+      if (!data) {
         toast({
-          title: "Not Found",
-          description: "No order found with this ChatCheckr ID",
+          title: "Order Not Found",
+          description: "No order found with this ChatCheckr ID. Please check the ID and try again.",
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to retrieve order information",
+        description: "An error occurred while retrieving order information",
         variant: "destructive",
       });
     } finally {
@@ -58,22 +56,15 @@ const MyOrder = () => {
     }
   };
 
-  // Function to determine the progress status of an audit
-  // In a real application, this would be based on the actual audit status from the database
   const getProgressStatus = () => {
-    // For this example, we'll use a status field that would be set by the admin
-    // For now, let's use a placeholder that can be updated in the database
-    if (orderData && orderData.audit_status === "completed") {
-      return 100;
-    } else if (orderData && orderData.audit_status === "in_progress") {
-      return 75;
-    } else if (orderData && orderData.audit_status === "started") {
-      return 50;
-    } else if (orderData && orderData.audit_status === "received") {
-      return 25;
-    } else {
-      // Default for new orders
-      return 25;
+    if (!orderData) return 0;
+    
+    switch (orderData.audit_status) {
+      case 'completed': return 100;
+      case 'in_progress': return 75;
+      case 'started': return 50;
+      case 'received': return 25;
+      default: return 0;
     }
   };
 

@@ -1,10 +1,10 @@
-
-import { Facebook, Instagram, Twitter, Linkedin, Shield, RotateCcw, FileText, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import RefundRequestForm from "./RefundRequestForm";
 import PrivacyPolicy from "./PrivacyPolicy";
 import RefundPolicy from "./RefundPolicy";
-import { Button } from "@/components/ui/button";
+import TermsAndConditions from "./TermsAndConditions";
+import { Facebook, Instagram, Twitter, Linkedin, Shield, RotateCcw, FileText, ChevronUp } from "lucide-react";
 
 const Footer = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -12,7 +12,6 @@ const Footer = () => {
   const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
   const [refundPolicyOpen, setRefundPolicyOpen] = useState(false);
 
-  // Show back to top button when the user scrolls down
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 300) {
@@ -110,7 +109,7 @@ const Footer = () => {
                 <Button 
                   variant="outline" 
                   onClick={() => setRefundFormOpen(true)}
-                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors"
+                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors w-full"
                 >
                   Request for Refund
                 </Button>
@@ -124,12 +123,11 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Modals */}
       <RefundRequestForm open={refundFormOpen} onOpenChange={setRefundFormOpen} />
       <PrivacyPolicy open={privacyPolicyOpen} onOpenChange={setPrivacyPolicyOpen} />
       <RefundPolicy open={refundPolicyOpen} onOpenChange={setRefundPolicyOpen} />
+      <TermsAndConditions />
 
-      {/* Back to top button */}
       {showBackToTop && (
         <button 
           onClick={scrollToTop}
