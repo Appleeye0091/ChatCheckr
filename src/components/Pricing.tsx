@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, info } from "lucide-react";
+import { Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -37,7 +37,7 @@ const plans = [
     ],
     buttonText: "Get Premium",
     popular: true,
-    borderColor: "border-chatCheckr-purple"
+    borderColor: "border-chatAuditr-purple"
   }
 ];
 
@@ -52,13 +52,13 @@ const Pricing = () => {
         <p className="section-subtitle">
           Choose the audit package that fits your business needs
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mt-12">
           {plans.map((plan, index) => (
             <div key={index} className="flex">
               <Card className={`w-full relative ${plan.popular ? `border-2 ${plan.borderColor}` : ''} h-full flex flex-col`}>
                 {plan.popular && (
-                  <div className="absolute top-0 right-0 bg-chatCheckr-purple text-white px-3 py-1 text-xs font-semibold rounded-bl-lg rounded-tr-lg">
+                  <div className="absolute top-0 right-0 bg-chatAuditr-purple text-white px-3 py-1 text-xs font-semibold rounded-bl-lg rounded-tr-lg">
                     MOST POPULAR
                   </div>
                 )}
@@ -83,14 +83,14 @@ const Pricing = () => {
                 <CardFooter>
                   {plan.name === "Premium Audit" ? (
                     <Button
-                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple"
+                      className="w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
                       onClick={() => setShowPremiumDialog(true)}
                     >
                       {plan.buttonText}
                     </Button>
                   ) : (
                     <Button
-                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
+                      className="w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
                       onClick={() => navigate("/business-form")}
                     >
                       {plan.buttonText}
@@ -100,6 +100,19 @@ const Pricing = () => {
               </Card>
             </div>
           ))}
+        </div>
+
+        <div className="mt-16 max-w-3xl mx-auto p-6 rounded-md bg-gray-50 border border-gray-300 shadow-sm">
+          <h3 className="text-2xl font-semibold mb-4">Learn More About ChatAuditr</h3>
+          <p className="mb-3 text-gray-700 leading-relaxed">
+            At ChatAuditr, we are dedicated to improving your business communication through expert WhatsApp chat audits. Our mission is to empower small and medium businesses to understand and enhance their customer interactions, helping build trust and boost conversions.
+          </p>
+          <p className="mb-3 text-gray-700 leading-relaxed">
+            By analyzing your chat conversations, ChatAuditr identifies gaps and opportunities in response time, clarity, and brand voice consistency. Our actionable insights enable you to strengthen customer satisfaction and loyalty.
+          </p>
+          <p className="mb-3 text-gray-700 leading-relaxed font-semibold text-chatAuditr-purple">
+            Currently, we are offering the Basic Audit service exclusively, providing accessible and effective improvements for your business communication.
+          </p>
         </div>
 
         {/* Premium Unavailable Dialog */}
@@ -112,13 +125,13 @@ const Pricing = () => {
             </DialogHeader>
             <div className="flex flex-col gap-4 py-2">
               <p>
-                Thank you for your interest! At the moment, we are only serving <b>Basic Audit</b> requests. The Premium Audit package is temporarily unavailable as we optimize our services for you.
+                Thank you for your interest! At the moment, we are only serving <b>Basic Audit</b> requests. The Premium Audit package is temporarily unavailable as we are optimizing our services for you.
               </p>
               <p>
                 Please start with the Basic Audit, and we’ll notify you when Premium options are live!
               </p>
               <Button
-                className="mt-2 w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
+                className="mt-2 w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
                 onClick={() => {
                   setShowPremiumDialog(false);
                   navigate("/business-form");
