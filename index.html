@@ -11,14 +11,23 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
 
-    <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var badge = document.getElementById("lovable-badge");
-    if (badge) {
-      badge.remove();
+   <script>
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.id === 'lovable-badge') {
+          node.remove();
+        }
+      }
     }
   });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 </script>
+
 
 
     
