@@ -128,7 +128,7 @@ const Pricing = () => {
                 Thank you for your interest! At the moment, we are only serving <b>Basic Audit</b> requests. The Premium Audit package is temporarily unavailable as we are optimizing our services for you.
               </p>
               <p>
-                Please start with the Basic Audit, and we’ll notify you when Premium options are live!
+                Please start with the Basic Audit, and we'll notify you when Premium options are live!
               </p>
               <Button
                 className="mt-2 w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
@@ -148,4 +148,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-

@@ -112,9 +112,9 @@ const Footer = () => {
               </li>
               <li className="pt-4">
                 <Button 
-                  variant="outline" 
+                  variant="default"
                   onClick={() => setRefundFormOpen(true)}
-                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors w-full opacity-100"
+                  className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white w-full"
                 >
                   Request for Refund
                 </Button>
