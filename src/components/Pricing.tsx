@@ -1,7 +1,10 @@
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const plans = [
   {
@@ -40,6 +43,7 @@ const plans = [
 
 const Pricing = () => {
   const navigate = useNavigate();
+  const [showPremiumDialog, setShowPremiumDialog] = useState(false);
 
   return (
     <section id="pricing" className="section-padding">
@@ -77,24 +81,58 @@ const Pricing = () => {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button 
-                    className={`w-full ${
-                      plan.popular 
-                        ? "bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple" 
-                        : ""
-                    }`}
-                    onClick={() => navigate("/business-form")}
-                  >
-                    {plan.buttonText}
-                  </Button>
+                  {plan.name === "Premium Audit" ? (
+                    <Button
+                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple"
+                      onClick={() => setShowPremiumDialog(true)}
+                    >
+                      {plan.buttonText}
+                    </Button>
+                  ) : (
+                    <Button
+                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
+                      onClick={() => navigate("/business-form")}
+                    >
+                      {plan.buttonText}
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             </div>
           ))}
         </div>
+
+        {/* Premium Unavailable Dialog */}
+        <Dialog open={showPremiumDialog} onOpenChange={setShowPremiumDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                Premium Audit Currently Unavailable
+              </DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 py-2">
+              <p>
+                Thank you for your interest! At the moment, we are only serving <b>Basic Audit</b> requests. The Premium Audit package is temporarily unavailable as we optimize our services for you.
+              </p>
+              <p>
+                Please start with the Basic Audit, and we’ll notify you when Premium options are live!
+              </p>
+              <Button
+                className="mt-2 w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
+                onClick={() => {
+                  setShowPremiumDialog(false);
+                  navigate("/business-form");
+                }}
+              >
+                Go to Basic Audit
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
 };
 
 export default Pricing;
+

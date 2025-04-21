@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -9,28 +8,30 @@ import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const FAQ = () => {
   const faqs = [
     {
       question: "How does the audit process work?",
-      answer: "After you purchase an audit, you'll receive instructions to share your WhatsApp chat samples. Our experts will analyze them and prepare a comprehensive report within 48 hours that highlights strengths, areas for improvement, and specific recommendations."
+      answer: "After you purchase an audit, our team will reach out to your WhatsApp Business account posing as a potential customer. We'll interact directly with your business, then analyze the responses and prepare a comprehensive report within 48 hours—highlighting your strengths, areas for improvement, and specific recommendations."
     },
     {
       question: "Will you disclose that you pretended to be a potential customer?",
-      answer: "No. Our mysterious customer workflow ensures complete confidentiality. We will never disclose that we were the customer or that an audit was conducted. Your business reputation remains protected."
+      answer: "No. Our mysterious customer workflow ensures absolute confidentiality. We will never disclose that we were the customer or that an audit was conducted. Your business reputation remains protected."
     },
     {
       question: "How many interactions do you analyze?",
-      answer: "For the Basic Audit, we analyze 10-20 interactions. For the Premium Audit, we can analyze up to 50 interactions for a more in-depth assessment."
+      answer: "For the Basic Audit, we directly interact with your business and analyze 10-20 of our messages and your responses. Once Premium is available, up to 50 interactions will be assessed for an even deeper audit."
     },
     {
       question: "Is my data kept confidential?",
-      answer: "Absolutely. We take data privacy seriously. Your interaction data is processed confidentially and deleted after your report is delivered. We can also sign an NDA if required."
+      answer: "Absolutely. We take privacy very seriously. None of your information or interactions will be shared, and everything is deleted after the report is delivered. We are happy to sign an NDA if required."
     },
     {
       question: "Can I upgrade from Basic to Premium later?",
-      answer: "Yes, you can upgrade to the Premium Audit at any time. If you've already purchased the Basic Audit, we'll deduct that amount from the Premium price."
+      answer: "Yes, you can upgrade any time after Premium Audit launches. If you've already purchased the Basic Audit, we'll deduct that amount from the Premium price for you."
     }
   ];
 
@@ -57,6 +58,7 @@ const FAQ = () => {
 
 const Index = () => {
   const navigate = useNavigate();
+  const [showLearnMore, setShowLearnMore] = useState(false);
 
   const handleGetAudit = () => {
     navigate("/business-form");
@@ -81,12 +83,17 @@ const Index = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button 
                   size="lg" 
-                  className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-lg"
+                  className="bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-lg text-white"
                   onClick={handleGetAudit}
                 >
                   Get Your Audit – ₹199
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg"
+                  onClick={() => setShowLearnMore(true)}
+                >
                   Learn More
                 </Button>
               </div>
@@ -151,6 +158,39 @@ const Index = () => {
       <ContactCTA />
       <Testimonials />
       <Footer />
+
+      {/* Learn More Dialog */}
+      <Dialog open={showLearnMore} onOpenChange={setShowLearnMore}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>About ChatAuditr</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p>
+              <strong>Welcome to ChatAuditr!</strong>
+            </p>
+            <p>
+              <strong>Our Initiative:</strong> ChatAuditr is dedicated to helping small and medium businesses optimize their WhatsApp customer communication. Instead of you providing chat screenshots, our experts act as a real customer—engaging with your WhatsApp Business account to evaluate your team’s customer handling in real time.
+            </p>
+            <p>
+              <strong>How You Benefit:</strong>
+              <ul className="list-disc pl-6 mt-2 space-y-1">
+                <li>Receive an expert assessment of your team's actual interactions—focusing on authenticity, speed, and service skills.</li>
+                <li>Get actionable advice that will help you convert more leads and improve customer satisfaction.</li>
+                <li>Build long-lasting trust, credibility, and a unique brand voice on WhatsApp.</li>
+                <li>Completely confidential: your identity and information are never disclosed or retained.</li>
+                <li>Quick results: our audits deliver a detailed report within 48 hours.</li>
+              </ul>
+            </p>
+            <p>
+              <strong>Our current service</strong> is the <b>Basic Audit</b>, perfect for businesses who want fast, affordable, professional insights. Premium audit options will launch soon—so stay tuned!
+            </p>
+          </div>
+          <div className="pt-2 flex justify-end">
+            <Button onClick={() => setShowLearnMore(false)}>Close</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
