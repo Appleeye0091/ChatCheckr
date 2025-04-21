@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +13,7 @@ const MyOrder = () => {
   const [chatcheckrId, setChatcheckrId] = useState("");
   const [orderData, setOrderData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -19,38 +21,46 @@ const MyOrder = () => {
     if (!chatcheckrId.trim()) {
       toast({
         title: "Error",
-        description: "Please enter your ChatCheckr ID",
+        description: "Please enter your ChatAuditr ID",
         variant: "destructive",
       });
       return;
     }
 
     setIsLoading(true);
+    setNotFound(false);
     
     try {
       const { data, error } = await supabase
         .from("business_audits")
         .select("*")
-        .eq("chatcheckr_id", chatcheckrId)
+        .eq("chatcheckr_id", chatcheckrId.trim())
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Database error:", error);
+        setNotFound(true);
+        setOrderData(null);
+        return;
+      }
+      
+      if (!data) {
+        setNotFound(true);
+        setOrderData(null);
+        return;
+      }
       
       setOrderData(data);
-
-      if (!data) {
-        toast({
-          title: "Order Not Found",
-          description: "No order found with this ChatCheckr ID. Please check the ID and try again.",
-          variant: "destructive",
-        });
-      }
+      setNotFound(false);
+      
     } catch (error) {
+      console.error("Error fetching order:", error);
       toast({
         title: "Error",
         description: "An error occurred while retrieving order information",
         variant: "destructive",
       });
+      setNotFound(true);
     } finally {
       setIsLoading(false);
     }
@@ -75,9 +85,9 @@ const MyOrder = () => {
         
         {!orderData ? (
           <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Enter your ChatCheckr ID</h2>
+            <h2 className="text-xl font-semibold mb-4">Enter your ChatAuditr ID</h2>
             <p className="text-gray-600 mb-6">
-              Please enter the ChatCheckr ID you received after placing your order.
+              Please enter the ChatAuditr ID you received after placing your order.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Input
@@ -96,8 +106,13 @@ const MyOrder = () => {
               </Button>
             </div>
             
-            {chatcheckrId && !orderData && !isLoading && (
-              
+            {notFound && !isLoading && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertTitle>Order Not Found</AlertTitle>
+                <AlertDescription>
+                  We couldn't find an order with this ID. Please check the ID and try again, or contact our support at +91 9641070347 for assistance.
+                </AlertDescription>
+              </Alert>
             )}
           </div>
         ) : (

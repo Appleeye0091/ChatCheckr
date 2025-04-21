@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import RefundRequestForm from "./RefundRequestForm";
@@ -11,6 +12,7 @@ const Footer = () => {
   const [refundFormOpen, setRefundFormOpen] = useState(false);
   const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
   const [refundPolicyOpen, setRefundPolicyOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -34,7 +36,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-1">
-            <h3 className="text-xl font-semibold mb-4">ChatCheckr</h3>
+            <h3 className="text-xl font-semibold mb-4">ChatAuditr</h3>
             <p className="text-gray-300 mb-4">
               Helping businesses improve their customer chat experience through professional audits and actionable insights.
             </p>
@@ -101,15 +103,18 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <a href="#terms" className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center">
+                <button 
+                  onClick={() => setTermsOpen(true)}
+                  className="text-gray-300 hover:text-chatCheckr-purple transition-colors flex items-center"
+                >
                   <FileText size={16} className="mr-2" /> Terms & Conditions
-                </a>
+                </button>
               </li>
               <li className="pt-4">
                 <Button 
                   variant="outline" 
                   onClick={() => setRefundFormOpen(true)}
-                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors w-full"
+                  className="text-white border-white hover:bg-chatCheckr-purple hover:text-white hover:border-transparent transition-colors w-full opacity-100"
                 >
                   Request for Refund
                 </Button>
@@ -119,14 +124,14 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 pt-6 mt-6 text-center text-gray-400 text-sm">
-          <p>© {new Date().getFullYear()} ChatCheckr. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} ChatAuditr. All rights reserved.</p>
         </div>
       </div>
 
       <RefundRequestForm open={refundFormOpen} onOpenChange={setRefundFormOpen} />
       <PrivacyPolicy open={privacyPolicyOpen} onOpenChange={setPrivacyPolicyOpen} />
       <RefundPolicy open={refundPolicyOpen} onOpenChange={setRefundPolicyOpen} />
-      <TermsAndConditions />
+      <TermsAndConditions open={termsOpen} onOpenChange={setTermsOpen} />
 
       {showBackToTop && (
         <button 

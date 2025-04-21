@@ -1,13 +1,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useState } from "react";
 
-const TermsAndConditions = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface TermsAndConditionsProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
+const TermsAndConditions = ({ open, onOpenChange }: TermsAndConditionsProps) => {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl">Terms & Conditions</DialogTitle>
@@ -15,7 +17,7 @@ const TermsAndConditions = () => {
         
         <div className="space-y-4 text-sm">
           <p>
-            Welcome to ChatCheckr. By accessing our website or using our services, you agree to the following terms:
+            Welcome to ChatAuditr. By accessing our website or using our services, you agree to the following terms:
           </p>
           
           <p>
@@ -23,7 +25,7 @@ const TermsAndConditions = () => {
           </p>
           
           <p>
-            The audit is meant to guide and improve your customer handling. However, ChatCheckr is not responsible for any business decisions or outcomes you may take based on the audit results.
+            The audit is meant to guide and improve your customer handling. However, ChatAuditr is not responsible for any business decisions or outcomes you may take based on the audit results.
           </p>
           
           <p>
@@ -35,12 +37,12 @@ const TermsAndConditions = () => {
           </p>
           
           <p>
-            ChatCheckr retains the right to modify these terms without prior notice. Continued use of our platform implies acceptance of the latest terms.
+            ChatAuditr retains the right to modify these terms without prior notice. Continued use of our platform implies acceptance of the latest terms.
           </p>
         </div>
         
         <div className="mt-6 flex justify-end">
-          <Button onClick={() => setIsOpen(false)}>Close</Button>
+          <Button onClick={() => onOpenChange(false)}>Close</Button>
         </div>
       </DialogContent>
     </Dialog>

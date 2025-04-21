@@ -50,7 +50,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="/" className="flex items-center">
           <span className="text-2xl font-bold text-chatCheckr-darkPurple mr-6">
-            Chat<span className="text-chatCheckr-purple">Checkr</span>
+            Chat<span className="text-chatCheckr-purple">Auditr</span>
           </span>
         </a>
 
