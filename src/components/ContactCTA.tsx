@@ -1,9 +1,48 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const ContactCTA = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('customer_enquiries')
+        .insert([formData]);
+
+      if (error) throw error;
+
+      toast.success("Thank you for your message! We'll get back to you soon.");
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error("Sorry, something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <section id="contact" className="section-padding bg-chatCheckr-softBlue/30">
       <div className="container mx-auto">
@@ -11,31 +50,59 @@ const ContactCTA = () => {
           <div>
             <h2 className="text-3xl font-bold mb-6">Ready to improve your customer communication?</h2>
             <p className="text-gray-600 mb-8">
-              Get started with ChatCheckr today and discover how you can enhance your customer experience through better chat interactions.
+              Get started with ChatAuditr today and discover how you can enhance your customer experience through better chat interactions.
             </p>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-4">Have questions?</h3>
-              <form className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div>
-                    <Input type="text" placeholder="Your Name" className="w-full" />
+                    <Input
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full"
+                    />
                   </div>
                   <div>
-                    <Input type="email" placeholder="Email Address" className="w-full" />
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full"
+                    />
                   </div>
                   <div>
-                    <Textarea placeholder="Your Question" className="w-full" rows={4} />
+                    <Textarea
+                      name="message"
+                      placeholder="Your Question"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="w-full"
+                      rows={4}
+                    />
                   </div>
                 </div>
-                <Button className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple">
-                  Send Message
+                <Button 
+                  type="submit" 
+                  className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </div>
           </div>
           
           <div className="bg-white p-8 rounded-lg shadow-md flex flex-col justify-center">
-            <h3 className="text-xl font-semibold mb-6">Why choose ChatCheckr?</h3>
+            <h3 className="text-xl font-semibold mb-6">Why choose ChatAuditr?</h3>
             <ul className="space-y-4">
               <li className="flex items-start">
                 <div className="bg-chatCheckr-softBlue/50 p-1 rounded-full mr-3 mt-1">

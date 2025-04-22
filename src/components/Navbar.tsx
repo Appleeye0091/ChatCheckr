@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, List, GavelIcon, ShieldCheck, FileText } from "lucide-react";
@@ -60,14 +61,35 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <a href="/" className="flex items-center">
-          <span className="text-2xl font-bold text-chatCheckr-darkPurple mr-6">
+        <a href="/" className="flex items-center gap-2">
+          <svg
+            className="w-8 h-8 text-chatCheckr-purple"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.5 21L6.39139 20.3385C6.77579 20.2356 7.18304 20.2947 7.54009 20.4722C8.88097 21.1391 10.3929 21.5146 12 21.5146"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 12H8.01M12 12H12.01M16 12H16.01"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="text-2xl font-bold text-chatCheckr-darkPurple">
             Chat<span className="text-chatCheckr-purple">Auditr</span>
           </span>
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
             <a
               key={item.name}
