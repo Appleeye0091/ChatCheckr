@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, List, GavelIcon, ShieldCheck, FileText } from "lucide-react";
@@ -10,6 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import RefundPolicy from "@/components/RefundPolicy";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+import TermsAndConditions from "@/components/TermsAndConditions";
 
 const navItems = [
   { name: "Home", href: "#home" },
