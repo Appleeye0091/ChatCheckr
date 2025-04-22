@@ -35,7 +35,7 @@ const MyOrder = () => {
         .from("business_audits")
         .select("*")
         .eq("chatcheckr_id", chatcheckrId.trim())
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Database error:", error);

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -8,14 +9,11 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 
 type FormData = {
@@ -39,9 +37,9 @@ const BusinessForm = () => {
       email: '',
       whatsapp_number: '',
       business_name: '',
-      business_model: 'e-commerce',
+      business_model: '',
       business_model_other: '',
-      product_type: 'fashion',
+      product_type: '',
       product_type_other: '',
     }
   });
@@ -70,6 +68,9 @@ const BusinessForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  const watchBusinessModel = form.watch("business_model");
+  const watchProductType = form.watch("product_type");
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -156,6 +157,7 @@ const BusinessForm = () => {
             <FormField
               control={form.control}
               name="business_model"
+              rules={{ required: 'Business model is required' }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Business Model</FormLabel>
@@ -168,6 +170,12 @@ const BusinessForm = () => {
                     <SelectContent>
                       <SelectItem value="e-commerce">E-commerce</SelectItem>
                       <SelectItem value="service-based">Service-based</SelectItem>
+                      <SelectItem value="retail">Retail</SelectItem>
+                      <SelectItem value="wholesale">Wholesale</SelectItem>
+                      <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                      <SelectItem value="consulting">Consulting</SelectItem>
+                      <SelectItem value="education">Education</SelectItem>
+                      <SelectItem value="healthcare">Healthcare</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
@@ -176,7 +184,7 @@ const BusinessForm = () => {
               )}
             />
 
-            {form.getValues("business_model") === "other" && (
+            {watchBusinessModel === "other" && (
               <FormField
                 control={form.control}
                 name="business_model_other"
@@ -185,7 +193,7 @@ const BusinessForm = () => {
                   <FormItem>
                     <FormLabel>Specify Business Model</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your business model" {...field} />
+                      <Input placeholder="Please specify" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,6 +204,7 @@ const BusinessForm = () => {
             <FormField
               control={form.control}
               name="product_type"
+              rules={{ required: 'Product type is required' }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Product Type</FormLabel>
@@ -208,8 +217,13 @@ const BusinessForm = () => {
                     <SelectContent>
                       <SelectItem value="fashion">Fashion</SelectItem>
                       <SelectItem value="electronics">Electronics</SelectItem>
-                      <SelectItem value="food">Food</SelectItem>
+                      <SelectItem value="food">Food & Beverages</SelectItem>
                       <SelectItem value="home-decor">Home Decor</SelectItem>
+                      <SelectItem value="beauty">Beauty & Personal Care</SelectItem>
+                      <SelectItem value="health">Health & Wellness</SelectItem>
+                      <SelectItem value="books">Books & Stationery</SelectItem>
+                      <SelectItem value="toys">Toys & Games</SelectItem>
+                      <SelectItem value="sports">Sports & Fitness</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
@@ -218,7 +232,7 @@ const BusinessForm = () => {
               )}
             />
 
-            {form.getValues("product_type") === "other" && (
+            {watchProductType === "other" && (
               <FormField
                 control={form.control}
                 name="product_type_other"
@@ -227,7 +241,7 @@ const BusinessForm = () => {
                   <FormItem>
                     <FormLabel>Specify Product Type</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your product type" {...field} />
+                      <Input placeholder="Please specify" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
