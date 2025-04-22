@@ -1,119 +1,95 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-const businessModels = [
-  "Online service provider",
-  "Product seller",
-  "Coaching business",
-  "Online consultancy",
-  "Ecommerce business",
-  "Real estate agent",
-  "Education business",
-  "Event management",
-  "Restaurant or food service",
-  "Local store",
-  "Fitness or wellness",
-  "Digital marketing agency",
-  "Others"
-];
-
-const productTypes = [
-  "Clothing",
-  "Electronics",
-  "Digital services",
-  "Subscription services",
-  "Courses",
-  "Books",
-  "Art or Craft",
-  "Beauty or Cosmetics",
-  "Food or Beverages",
-  "Furniture",
-  "Tools or Equipment",
-  "Stationery",
-  "Others"
-];
-
-const formSchema = z.object({
-  fullName: z.string().optional(),
-  businessName: z.string().min(1, "Business name is required"),
-  whatsappNumber: z.string().min(1, "WhatsApp number is required"),
-  businessModel: z.string().min(1, "Business model is required"),
-  businessModelOther: z.string().optional(),
-  productType: z.string().optional(),
-  productTypeOther: z.string().optional(),
-  email: z.string().email().optional().or(z.literal("")),
-});
-
-type BusinessFormData = z.infer<typeof formSchema>;
+type FormData = {
+  full_name: string;
+  email: string;
+  whatsapp_number: string;
+  business_name: string;
+  business_model: string;
+  business_model_other: string;
+  product_type: string;
+  product_type_other: string;
+};
 
 const BusinessForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const form = useForm<BusinessFormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormData>({
+    defaultValues: {
+      full_name: '',
+      email: '',
+      whatsapp_number: '',
+      business_name: '',
+      business_model: 'e-commerce',
+      business_model_other: '',
+      product_type: 'fashion',
+      product_type_other: '',
+    }
   });
 
-  const onSubmit = async (data: BusinessFormData) => {
+  const handleSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     try {
-      setIsLoading(true);
-      
-      const { error: auditError } = await supabase
-        .from("business_audits")
-        .insert({
-          full_name: data.fullName,
-          business_name: data.businessName,
-          whatsapp_number: data.whatsappNumber,
-          business_model: data.businessModel,
-          business_model_other: data.businessModel === "Others" ? data.businessModelOther : null,
-          product_type: data.productType,
-          product_type_other: data.productType === "Others" ? data.productTypeOther : null,
-          email: data.email || null,
-        });
+      const { error } = await supabase
+        .from('business_audits')
+        .insert([{
+          ...data,
+          payment_status: 'pending'
+        }]);
 
-      if (auditError) throw auditError;
-
-      toast({
-        title: "Success!",
-        description: "Business details saved successfully.",
-      });
+      if (error) throw error;
 
       navigate("/payment");
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast({
         title: "Error",
-        description: "Failed to save business details. Please try again.",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Tell us about your business</h1>
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Get Your WhatsApp Business Audit</h1>
+        <p className="text-gray-600 mb-8">
+          Please fill out the form below to get started.
+        </p>
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="fullName"
+              name="full_name"
+              rules={{ required: 'Full name is required' }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Name (Optional)</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your name" {...field} />
+                    <Input placeholder="Enter your full name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,10 +98,53 @@ const BusinessForm = () => {
 
             <FormField
               control={form.control}
-              name="businessName"
+              name="email"
+              rules={{
+                required: 'Email is required',
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: 'Invalid email address',
+                },
+              }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Business Name (Required)</FormLabel>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Enter your email address" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="whatsapp_number"
+              rules={{
+                required: 'WhatsApp number is required',
+                pattern: {
+                  value: /^[0-9]{10}$/,
+                  message: 'Invalid WhatsApp number',
+                },
+              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>WhatsApp Number</FormLabel>
+                  <FormControl>
+                    <Input type="tel" placeholder="Enter your 10-digit WhatsApp number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="business_name"
+              rules={{ required: 'Business name is required' }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Business Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your business name" {...field} />
                   </FormControl>
@@ -136,36 +155,20 @@ const BusinessForm = () => {
 
             <FormField
               control={form.control}
-              name="whatsappNumber"
+              name="business_model"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Business WhatsApp Number (Required)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your WhatsApp number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="businessModel"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Business Model (Required)</FormLabel>
+                  <FormLabel>Business Model</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select your business model" />
+                        <SelectValue placeholder="Select a business model" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {businessModels.map((model) => (
-                        <SelectItem key={model} value={model}>
-                          {model}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="e-commerce">E-commerce</SelectItem>
+                      <SelectItem value="service-based">Service-based</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -173,13 +176,14 @@ const BusinessForm = () => {
               )}
             />
 
-            {form.watch("businessModel") === "Others" && (
+            {form.getValues("business_model") === "other" && (
               <FormField
                 control={form.control}
-                name="businessModelOther"
+                name="business_model_other"
+                rules={{ required: 'Please specify your business model' }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Please specify your business model</FormLabel>
+                    <FormLabel>Specify Business Model</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter your business model" {...field} />
                     </FormControl>
@@ -191,22 +195,22 @@ const BusinessForm = () => {
 
             <FormField
               control={form.control}
-              name="productType"
+              name="product_type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>What Product Do You Sell? (Optional)</FormLabel>
+                  <FormLabel>Product Type</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select your product type" />
+                        <SelectValue placeholder="Select a product type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {productTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="fashion">Fashion</SelectItem>
+                      <SelectItem value="electronics">Electronics</SelectItem>
+                      <SelectItem value="food">Food</SelectItem>
+                      <SelectItem value="home-decor">Home Decor</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -214,13 +218,14 @@ const BusinessForm = () => {
               )}
             />
 
-            {form.watch("productType") === "Others" && (
+            {form.getValues("product_type") === "other" && (
               <FormField
                 control={form.control}
-                name="productTypeOther"
+                name="product_type_other"
+                rules={{ required: 'Please specify your product type' }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Please specify your product type</FormLabel>
+                    <FormLabel>Specify Product Type</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter your product type" {...field} />
                     </FormControl>
@@ -230,22 +235,8 @@ const BusinessForm = () => {
               />
             )}
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email (Optional)</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Enter your email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Continue to Payment"}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </form>
         </Form>

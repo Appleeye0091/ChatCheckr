@@ -25,6 +25,7 @@ export type Database = {
           product_type: string | null
           product_type_other: string | null
           updated_at: string | null
+          utr_number: string | null
           whatsapp_number: string
         }
         Insert: {
@@ -42,6 +43,7 @@ export type Database = {
           product_type?: string | null
           product_type_other?: string | null
           updated_at?: string | null
+          utr_number?: string | null
           whatsapp_number: string
         }
         Update: {
@@ -59,6 +61,7 @@ export type Database = {
           product_type?: string | null
           product_type_other?: string | null
           updated_at?: string | null
+          utr_number?: string | null
           whatsapp_number?: string
         }
         Relationships: []

@@ -7,9 +7,12 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type PaymentFormData = {
-  amount: string;
+  utr_number: string;
 };
 
 const Payment = () => {
@@ -18,11 +21,47 @@ const Payment = () => {
   const { toast } = useToast();
   const form = useForm<PaymentFormData>({
     defaultValues: {
-      amount: "199",
+      utr_number: "",
     },
   });
 
-  // Generate random 8 character ID with uppercase letters and numbers
+  const onSubmit = async (data: PaymentFormData) => {
+    try {
+      setIsLoading(true);
+      
+      // Update the most recent business audit record
+      const { error: paymentError } = await supabase
+        .from("business_audits")
+        .update({ 
+          utr_number: data.utr_number,
+          payment_status: "verification_pending"
+        })
+        .eq("payment_status", "pending")
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (paymentError) throw paymentError;
+
+      toast({
+        title: "Payment details submitted!",
+        description: "We'll verify your payment and start your audit soon.",
+      });
+
+      // Generate a random ChatAuditr ID and navigate to confirmation
+      const chatcheckrId = generateChatcheckrId();
+      navigate("/confirmation", { state: { chatcheckrId } });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to process payment details. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generate random 8 character ID
   const generateChatcheckrId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
@@ -32,70 +71,52 @@ const Payment = () => {
     return result;
   };
 
-  const onSubmit = async (data: PaymentFormData) => {
-    try {
-      setIsLoading(true);
-      
-      // Generate a unique ChatCheckr ID
-      const chatcheckrId = generateChatcheckrId();
-      
-      // Update the most recent business audit record
-      const { error: paymentError } = await supabase
-        .from("business_audits")
-        .update({ 
-          payment_amount: parseFloat(data.amount),
-          payment_status: "completed",
-          chatcheckr_id: chatcheckrId
-        })
-        .eq("payment_status", "pending")
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (paymentError) throw paymentError;
-
-      toast({
-        title: "Payment Successful!",
-        description: "Thank you for your payment. We'll start your audit soon.",
-      });
-
-      // Navigate to confirmation page with the ChatCheckr ID
-      navigate("/confirmation", { state: { chatcheckrId } });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to process payment. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="container mx-auto py-10 px-4">
-      <div className="max-w-md mx-auto">
+      <div className="max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Complete Your Payment</h1>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Amount (₹)</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} readOnly />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+        
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <div className="flex flex-col items-center justify-center mb-6">
+            <img 
+              src="/qr-code.jpg" 
+              alt="UPI QR Code" 
+              className="max-w-[300px] rounded-lg shadow-md mb-4"
             />
+            <p className="text-lg font-semibold">Scan QR code to pay ₹199</p>
+          </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Processing..." : "Pay Now"}
-            </Button>
-          </form>
-        </Form>
+          <Alert className="mb-6 bg-blue-50 border-blue-200">
+            <InfoIcon className="h-5 w-5 text-blue-500" />
+            <AlertDescription className="text-blue-700">
+              <p className="font-semibold mb-2">Why do we need the UTR number?</p>
+              <p>The UTR (Unique Transaction Reference) number helps us match your payment with your order. It's completely safe to share as it doesn't contain any sensitive information. You can find it in your payment confirmation message or bank statement.</p>
+            </AlertDescription>
+          </Alert>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="utr_number"
+                rules={{ required: "UTR number is required" }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>UTR Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your UTR number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Processing..." : "Submit Payment Details"}
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   );
