@@ -37,7 +37,7 @@ const plans = [
     ],
     buttonText: "Get Premium",
     popular: true,
-    borderColor: "border-chatAuditr-purple"
+    borderColor: "border-chatCheckr-purple"
   }
 ];
 
@@ -58,7 +58,7 @@ const Pricing = () => {
             <div key={index} className="flex">
               <Card className={`w-full relative ${plan.popular ? `border-2 ${plan.borderColor}` : ''} h-full flex flex-col`}>
                 {plan.popular && (
-                  <div className="absolute top-0 right-0 bg-chatAuditr-purple text-white px-3 py-1 text-xs font-semibold rounded-bl-lg rounded-tr-lg">
+                  <div className="absolute top-0 right-0 bg-chatCheckr-purple text-white px-3 py-1 text-xs font-semibold rounded-bl-lg rounded-tr-lg">
                     MOST POPULAR
                   </div>
                 )}
@@ -83,14 +83,14 @@ const Pricing = () => {
                 <CardFooter>
                   {plan.name === "Premium Audit" ? (
                     <Button
-                      className="w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
+                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
                       onClick={() => setShowPremiumDialog(true)}
                     >
                       {plan.buttonText}
                     </Button>
                   ) : (
                     <Button
-                      className="w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
+                      className="w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
                       onClick={() => navigate("/business-form")}
                     >
                       {plan.buttonText}
@@ -110,7 +110,7 @@ const Pricing = () => {
           <p className="mb-3 text-gray-700 leading-relaxed">
             By analyzing your chat conversations, ChatAuditr identifies gaps and opportunities in response time, clarity, and brand voice consistency. Our actionable insights enable you to strengthen customer satisfaction and loyalty.
           </p>
-          <p className="mb-3 text-gray-700 leading-relaxed font-semibold text-chatAuditr-purple">
+          <p className="mb-3 text-gray-700 leading-relaxed font-semibold text-chatCheckr-purple">
             Currently, we are offering the Basic Audit service exclusively, providing accessible and effective improvements for your business communication.
           </p>
         </div>
@@ -131,7 +131,7 @@ const Pricing = () => {
                 Please start with the Basic Audit, and we'll notify you when Premium options are live!
               </p>
               <Button
-                className="mt-2 w-full bg-chatAuditr-purple hover:bg-chatAuditr-secondaryPurple text-white"
+                className="mt-2 w-full bg-chatCheckr-purple hover:bg-chatCheckr-secondaryPurple text-white"
                 onClick={() => {
                   setShowPremiumDialog(false);
                   navigate("/business-form");
