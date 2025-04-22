@@ -47,7 +47,7 @@ const Payment = () => {
         description: "We'll verify your payment and start your audit soon.",
       });
 
-      // Generate a random ChatAuditr ID and navigate to confirmation
+      // Generate a random ChatCheckr ID and navigate to confirmation
       const chatcheckrId = generateChatcheckrId();
       navigate("/confirmation", { state: { chatcheckrId } });
     } catch (error) {
