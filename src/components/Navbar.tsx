@@ -1,8 +1,15 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, List } from "lucide-react";
+import { Menu, X, List, GavelIcon, ShieldCheck, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -16,6 +23,9 @@ const navItems = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showRefundPolicy, setShowRefundPolicy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,6 +76,31 @@ const Navbar = () => {
             </a>
           ))}
           
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="flex items-center gap-2">
+                <GavelIcon size={16} />
+                Policies
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuGroup>
+                <DropdownMenuItem onClick={() => setShowPrivacyPolicy(true)}>
+                  <ShieldCheck className="mr-2 h-4 w-4" />
+                  <span>Privacy Policy</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setShowRefundPolicy(true)}>
+                  <FileText className="mr-2 h-4 w-4" />
+                  <span>Refund Policy</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setShowTerms(true)}>
+                  <GavelIcon className="mr-2 h-4 w-4" />
+                  <span>Terms & Conditions</span>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           <Button 
             variant="outline"
             onClick={handleMyOrder}
@@ -107,6 +142,44 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
+
+            <div className="py-2 space-y-2">
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                onClick={() => {
+                  setShowPrivacyPolicy(true);
+                  setIsOpen(false);
+                }}
+              >
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                Privacy Policy
+              </Button>
+              
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                onClick={() => {
+                  setShowRefundPolicy(true);
+                  setIsOpen(false);
+                }}
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Refund Policy
+              </Button>
+              
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                onClick={() => {
+                  setShowTerms(true);
+                  setIsOpen(false);
+                }}
+              >
+                <GavelIcon className="mr-2 h-4 w-4" />
+                Terms & Conditions
+              </Button>
+            </div>
             
             <Button 
               variant="outline"
@@ -132,6 +205,20 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+      {/* Policy Modals */}
+      <RefundPolicy
+        open={showRefundPolicy}
+        onOpenChange={setShowRefundPolicy}
+      />
+      <PrivacyPolicy
+        open={showPrivacyPolicy}
+        onOpenChange={setShowPrivacyPolicy}
+      />
+      <TermsAndConditions
+        open={showTerms}
+        onOpenChange={setShowTerms}
+      />
     </nav>
   );
 };
