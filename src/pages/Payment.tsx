@@ -74,7 +74,7 @@ const Payment = () => {
 } catch (error) {
   toast({
     title: "Error",
-    description: "Failed to process payment details. Please try again.",
+    description: `Failed to process payment details. Please try again. ${error}` ,
     variant: "destructive",
   });
 } finally {
