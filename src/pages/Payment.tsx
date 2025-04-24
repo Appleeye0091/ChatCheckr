@@ -45,7 +45,7 @@ const Payment = () => {
         .from("business_audits")
         .update({ 
           utr_number: data.utr_number,
-          payment_status: "verification_pending",
+          payment_status: "Payment_done",
           chatcheckr_id: chatcheckrId
         })
         .eq("payment_status", "pending")
