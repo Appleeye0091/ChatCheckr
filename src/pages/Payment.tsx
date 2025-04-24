@@ -26,50 +26,61 @@ const Payment = () => {
 
   const onSubmit = async (data: PaymentFormData) => {
     try {
-      setIsLoading(true);
-      const chatcheckrId = generateChatcheckrId();
+  setIsLoading(true);
 
-      // Generate random 8 character ID
+  // Generate random 8 character ChatCheckr ID
   const generateChatcheckrId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    var result = '';
+    let result = '';
     for (let i = 0; i < 8; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
   };
-      
-      // Update the most recent business audit record
-      const { error: paymentError } = await supabase
-        .from("business_audits")
-        .update({ 
-          utr_number: data.utr_number,
-          payment_status: "verification_pending",
-          chatcheckr_id: chatcheckrId
-        })
-       
-        .order("created_at", { ascending: false })
-        .limit(1);
 
-      if (paymentError) throw paymentError;
+  const chatcheckrId = generateChatcheckrId();
 
-      toast({
-        title: "Payment details submitted!",
-        description: "We'll verify your payment and start your audit soon.",
-      });
+  // Step 1: Select the most recent pending business audit record
+  const { data: latestAudit, error: selectError } = await supabase
+    .from("business_audits")
+    .select("id")
+    .eq("payment_status", "pending")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
 
-      // Generate a random ChatCheckr ID and navigate to confirmation
-      
-      navigate("/confirmation", { state: { chatcheckrId } });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to process payment details. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  if (selectError || !latestAudit) throw selectError || new Error("No pending audit found");
+
+  // Step 2: Update that record with payment details
+  const { error: paymentError } = await supabase
+    .from("business_audits")
+    .update({
+      utr_number: data.utr_number,
+      payment_status: "verification_pending", // or "payment done" if you want
+      chatcheckr_id: chatcheckrId,
+    })
+    .eq("id", latestAudit.id);
+
+  if (paymentError) throw paymentError;
+
+  toast({
+    title: "Payment details submitted!",
+    description: "We'll verify your payment and start your audit soon.",
+  });
+
+  // Navigate to confirmation page with ChatCheckr ID
+  navigate("/confirmation", { state: { chatcheckrId } });
+
+} catch (error) {
+  toast({
+    title: "Error",
+    description: "Failed to process payment details. Please try again.",
+    variant: "destructive",
+  });
+} finally {
+  setIsLoading(false);
+}
+
   };
 
   
