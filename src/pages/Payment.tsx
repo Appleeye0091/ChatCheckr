@@ -93,7 +93,7 @@ const Payment = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <div className="flex flex-col items-center justify-center mb-6">
             <img 
-              src="QR_CODE_for_payment.jpg" 
+              src="@/pages/QR_CODE_for_payment.jpg" 
               alt="UPI QR Code" 
               className="max-w-[300px] rounded-lg shadow-md mb-4"
             />
