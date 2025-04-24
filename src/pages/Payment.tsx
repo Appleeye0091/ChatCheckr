@@ -28,6 +28,7 @@ const Payment = () => {
   const onSubmit = async (data: PaymentFormData) => {
     try {
       setIsLoading(true);
+      const chatcheckrId = generateChatcheckrId();
       
       // Update the most recent business audit record
       const { error: paymentError } = await supabase
@@ -49,7 +50,7 @@ const Payment = () => {
       });
 
       // Generate a random ChatCheckr ID and navigate to confirmation
-      const chatcheckrId = generateChatcheckrId();
+      
       navigate("/confirmation", { state: { chatcheckrId } });
     } catch (error) {
       toast({
