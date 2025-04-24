@@ -29,6 +29,16 @@ const Payment = () => {
     try {
       setIsLoading(true);
       var chatcheckrId = generateChatcheckrId();
+
+      // Generate random 8 character ID
+  const generateChatcheckrId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
       
       // Update the most recent business audit record
       const { error: paymentError } = await supabase
@@ -63,15 +73,7 @@ const Payment = () => {
     }
   };
 
-  // Generate random 8 character ID
-  const generateChatcheckrId = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 8; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-  };
+  
 
   return (
     <div className="container mx-auto py-10 px-4">
