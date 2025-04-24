@@ -27,12 +27,12 @@ const Payment = () => {
   const onSubmit = async (data: PaymentFormData) => {
     try {
       setIsLoading(true);
-      var chatcheckrId = generateChatcheckrId();
+      const chatcheckrId = generateChatcheckrId();
 
       // Generate random 8 character ID
   const generateChatcheckrId = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
+    var result = '';
     for (let i = 0; i < 8; i++) {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
