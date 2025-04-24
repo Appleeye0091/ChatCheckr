@@ -28,7 +28,7 @@ const Payment = () => {
   const onSubmit = async (data: PaymentFormData) => {
     try {
       setIsLoading(true);
-      const chatcheckrId = generateChatcheckrId();
+      var chatcheckrId = generateChatcheckrId();
       
       // Update the most recent business audit record
       const { error: paymentError } = await supabase
